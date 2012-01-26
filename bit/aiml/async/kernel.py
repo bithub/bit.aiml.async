@@ -442,11 +442,13 @@ class Kernel:
         elem = self._brain.match(subbedInput, subbedThat, subbedTopic)
 
 	if self._debugMode: print "key =", subbedInput, subbedThat, subbedTopic
+
         if elem is None:
-            response = ''
+            response = defer.maybeDeferred(lambda x: x, None)
             if self._verboseMode:
                 err = "WARNING: No match found for input: %s\n" % input.encode(self._textEncoding)
                 sys.stderr.write(err)
+                
         else:
             def _gotResponse(resp):
                 return (resp.strip()+' ').strip()                
