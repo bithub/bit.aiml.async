@@ -352,6 +352,9 @@ class Kernel(object):
         if len(input) == 0:
             return ""
 
+        notify(PersonSpeaksEvent(self).update(request,input))
+
+
         #ensure that input is a unicode string
         try: input = input.decode(self._textEncoding, 'replace')
         except UnicodeError: pass
@@ -382,11 +385,11 @@ class Kernel(object):
                 # append this response to the final response.
                 finalResponse += (response + "  ")
             finalResponse = finalResponse.strip()
-                
             assert(len(self.getPredicate(self._inputStack, request.session_id)) == 0)
                 
             # release the lock and return
             self._respondLock.release()
+            notify(BotRespondsEvent(self).update(request,finalResponse))             
             try: return finalResponse.encode(self._textEncoding)
             except UnicodeError: return finalResponse
 
@@ -785,6 +788,7 @@ class Kernel(object):
         _processRandom() for details of their usage.
  
         """
+
         def _gotResponses(responses):
             _response = ''
             for result,resp in responses:
@@ -1347,14 +1351,6 @@ class Kernel(object):
         response = string.join(response.splitlines()).strip()
         return response
 
-    def respond(self, request, input):
-        notify(PersonSpeaksEvent(self).update(request,input))
-
-        def _gotResponse(resp):
-            notify(BotRespondsEvent(self).update(request,resp))            
-            return resp
-
-        return Kernel.respond(self,request,input).addCallback(_gotResponse)
     
     def respond_async(self, sessionID, response):
         """Return the Kernel's response to the input string."""        
