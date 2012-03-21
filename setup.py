@@ -24,7 +24,11 @@ setup(name='bit.aiml.async',
       install_requires=[
           'setuptools',
           'zope.event',
+          'zope.interface',
+          'zope.component',
+          'zope.i8nmessageid',
           'twisted',
+          'bit.bot.base',
       ],
       entry_points="""
       # -*- Entry points: -*-
