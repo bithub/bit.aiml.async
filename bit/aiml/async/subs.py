@@ -42,7 +42,7 @@ defaultGender = {
     "his": "her",
     "himself": "herself",
 
-    # feminine -> masculine    
+    # feminine -> masculine
     "she": "he",
     "her": "him",
     "hers": "his",
@@ -58,16 +58,16 @@ defaultPerson = {
     "myself": "himself",
 
     # 3rd->1st (masculine)
-    "he":"I",
-    "him":"me",
-    "his":"my",
-    "himself":"myself",
-    
+    "he": "I",
+    "him": "me",
+    "his": "my",
+    "himself": "myself",
+
     # 3rd->1st (feminine)
-    "she":"I",
-    "her":"me",
-    "hers":"mine",
-    "herself":"myself",
+    "she": "I",
+    "her": "me",
+    "hers": "mine",
+    "herself": "myself",
 }
 
 defaultPerson2 = {
@@ -114,14 +114,14 @@ defaultNormal = {
     "they'll": "they will",
     "they've": "they have",
 
-    "y'all": "you all",    
+    "y'all": "you all",
 
     "can't": "can not",
     "cannot": "can not",
     "couldn't": "could not",
     "wouldn't": "would not",
     "shouldn't": "should not",
-    
+
     "isn't": "is not",
     "ain't": "is not",
     "don't": "do not",
@@ -153,4 +153,4 @@ defaultNormal = {
     "it's": "it is",
     "it'd": "it would",
     "it'll": "it will",
-}    
+}
