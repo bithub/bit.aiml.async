@@ -23,6 +23,8 @@ setup(name='bit.aiml.async',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'zope.event',
+          'twisted',
       ],
       entry_points="""
       # -*- Entry points: -*-
