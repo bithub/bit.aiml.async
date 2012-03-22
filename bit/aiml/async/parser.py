@@ -303,8 +303,8 @@ class AimlHandler(ContentHandler):
                                                    and 'value' in  parentAttr))
                 if not canBeParent:
                     raise AimlParserError(
-                        ("Unexpected text inside <%s> element "
-                         + "(not canBeParent)" % parent)
+                        ("Unexpected text inside <%s> element " % parent
+                         + "(not canBeParent)")
                         + self._location())
                 elif parent == "random" or nonBlockStyleCondition:
                     if len(text.strip()) == 0:
@@ -312,8 +312,8 @@ class AimlHandler(ContentHandler):
                         return
                     else:
                         raise AimlParserError(
-                            ("Unexpected text inside <%s> element "
-                             + "(non-whitespace text)" % parent)
+                            ("Unexpected text inside <%s> element " % parent
+                             + "(non-whitespace text)")
                             + self._location())
             except IndexError:
                 # the element stack is empty. This should never happen.
@@ -365,17 +365,17 @@ class AimlHandler(ContentHandler):
                 self._skipCurrentCategory = False
                 self._state = self._STATE_InsideAiml
                 return
-            try:
-                self._endElement(name)
-            except AimlParserError, msg:
-                # Print the message
-                sys.stderr.write("PARSE ERROR: %s\n" % msg)
-                # increment error count
-                self._numParseErrors += 1
-                # In case of a parse error,
-                # if we're inside a category, skip it.
-                if self._state >= self._STATE_InsideCategory:
-                    self._skipCurrentCategory = True
+        try:
+            self._endElement(name)
+        except AimlParserError, msg:
+            # Print the message
+            sys.stderr.write("PARSE ERROR: %s\n" % msg)
+            # increment error count
+            self._numParseErrors += 1
+            # In case of a parse error,
+            # if we're inside a category, skip it.
+            if self._state >= self._STATE_InsideCategory:
+                self._skipCurrentCategory = True
 
     def _endElement(self, name):
         """Verify that an AIML end element is valid in the current
@@ -553,13 +553,13 @@ class AimlHandler(ContentHandler):
                         temp = int(v)
                     except:
                         raise AimlParserError(
-                            ("Bad type for \"%s\" attribute "
-                             + "(expected integer, found \"%s\") " % (k, v))
+                            ("Bad type for \"%s\" attribute " % k
+                             + "(expected integer, found \"%s\") " % v)
                             + self._location())
                     if temp < 1:
                         raise AimlParserError(
-                            ("\"%s\" attribute must have "
-                             + "non-negative value " % (k))
+                            ("\"%s\" attribute must have " % k
+                             + "non-negative value ")
                             + self._location())
 
         # See whether the containing element is permitted to contain
