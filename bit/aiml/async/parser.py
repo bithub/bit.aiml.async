@@ -1,9 +1,11 @@
+import sys
+
 from xml.sax.handler import ContentHandler
 from xml.sax.xmlreader import Locator
-import sys
 import xml.sax
 import xml.sax.handler
 
+from twisted.python import log
 
 class AimlParserError(Exception):
     pass

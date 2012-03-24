@@ -15,6 +15,7 @@ from ConfigParser import ConfigParser
 
 from zope.event import notify
 
+from twisted.python import log
 from twisted.internet import defer
 
 import parser as aiml_parser
@@ -321,6 +322,7 @@ class Kernel(object):
         will be loaded and learned.
 
         """
+        log.err('bit.aiml.async.kernel: Kernel.learn')
         for f in glob.glob(filename):
             if self._verboseMode:
                 print "Loading %s..." % f,
@@ -375,6 +377,8 @@ class Kernel(object):
 
     def respond(self, request, input):
         """Return the Kernel's response to the input string."""
+        log.msg('bit.aiml.async.kernel: Kernel.respond')
+
         if len(input) == 0:
             return ""
 
