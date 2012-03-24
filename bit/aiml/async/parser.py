@@ -7,6 +7,7 @@ import xml.sax.handler
 
 from twisted.python import log
 
+
 class AimlParserError(Exception):
     pass
 
