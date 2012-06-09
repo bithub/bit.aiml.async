@@ -1309,11 +1309,11 @@ class Kernel(object):
         """
         # build up the command string
         command = ""
+
         for e in elem[2:]:
             command += self._processElement(e, request.session_id)
 
         #HACK
-        from zope.dottedname.resolve import resolve
 
         #inputStack = self.getPredicate(self._inputStack, request.session_id)
         #input = self._subbers['normal'].sub(inputStack[-1])
@@ -1323,16 +1323,18 @@ class Kernel(object):
         #try: that = self._subbers['normal'].sub(outputHistory[-1])
         #except: that = "" # there might not be any output yet
         #topic = self.getPredicate("topic", request.session_id)
-        if '.' in command and not '/' in command:
-            code = resolve(command)
-            if code:
-                _code = code(self)
+        
+        from zope.component import queryAdapter
+        from bit.aiml.async.interfaces import IAIMLMacro
 
-                def _complete(result):
-                    _code.complete()
-                    return result or ''
-                return defer.maybeDeferred(
-                    _code.parse, self, request, elem).addCallback(_complete)
+        command = queryAdapter(request, IAIMLMacro, name=command)
+
+        if command:
+            def _complete(result):
+                command.complete()
+                return result or ''
+            return defer.maybeDeferred(
+                command.parse, self, elem).addCallback(_complete)
 
         #/HACK
 
