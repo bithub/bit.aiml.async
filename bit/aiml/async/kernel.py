@@ -13,6 +13,8 @@ import threading
 import xml.sax
 from ConfigParser import ConfigParser
 
+from zope.interface import implements
+from zope.component import queryMultiAdapter
 from zope.event import notify
 
 from twisted.python import log
@@ -25,9 +27,12 @@ from pattern import PatternMgr
 from wordsub import WordSub
 
 from bit.bot.base.events import BotRespondsEvent, PersonSpeaksEvent
+from bit.aiml.async.interfaces import IAIMLKernel, IAIMLMacro
 
 
 class Kernel(object):
+
+    implements(IAIMLKernel)
 
     # module constants
 
@@ -1324,17 +1329,14 @@ class Kernel(object):
         #except: that = "" # there might not be any output yet
         #topic = self.getPredicate("topic", request.session_id)
         
-        from zope.component import queryAdapter
-        from bit.aiml.async.interfaces import IAIMLMacro
-
-        command = queryAdapter(request, IAIMLMacro, name=command)
+        command = queryMultiAdapter([self, request], IAIMLMacro, name=command)
 
         if command:
             def _complete(result):
                 command.complete()
                 return result or ''
             return defer.maybeDeferred(
-                command.parse, self, elem).addCallback(_complete)
+                command.parse, elem).addCallback(_complete)
 
         #/HACK
 

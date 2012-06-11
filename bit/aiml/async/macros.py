@@ -5,11 +5,16 @@ from bit.core.interfaces import ISockets
 from bit.aiml.async.interfaces import IAIMLMacro
 
 
-class BotAIMacro(object):
+class AIMLMacro(object):
     implements(IAIMLMacro)
 
-    def __init__(self, request):
+    def __init__(self, kernel, request):
+        self.kernel = kernel
         self.request = request
+
+    @property
+    def star(self):
+        return  self.kernel._processElement(['star',{}], self.request)            
 
     def _asker(self,jid):
         # this is very bad! - we should check against my bot's jid domain!                                                                            
@@ -40,3 +45,5 @@ class BotAIMacro(object):
     def complete(self):
         pass
 
+
+BotAIMacro = AIMLMacro 
